@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predictive Analysis of Sales Trends</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #inputBox {
+            margin: 20px auto;
+            padding: 10px;
+        }
+        #result {
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Predictive Analysis of Sales Trends</h1>
+    
+    <div id="inputBox">
+        <label for="salesData">Upload sales data (CSV file):</label><br>
+        <input type="file" id="salesData"><br>
+        <button onclick="performPredictiveAnalysis()">Analyze Sales Trends</button>
+    </div>
+
+    <div id="result">
+        <h2>Predictive Analysis Result:</h2>
+        <pre id="analysisResult"></pre>
+    </div>
+
+    <script>
+        function performPredictiveAnalysis() {
+            const salesDataInput = document.getElementById("salesData");
+            const salesDataFile = salesDataInput.files[0];
+
+            if (salesDataFile) {
+                const formData = new FormData();
+                formData.append("file", salesDataFile);
+
+                // Send the uploaded file to the server for analysis
+                fetch("/perform-predictive-analysis", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("analysisResult").textContent = data;
+                });
+            } else {
+                alert("Please select a file.");
+            }
+        }
+    </script>
+</body>
+</html>
